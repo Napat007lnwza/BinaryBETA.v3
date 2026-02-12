@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Binary Fun: กุญแจสู่โลกดิจิทัล</title>
+<link rel="stylesheet" href="style.css?v=1.0">
+</head>
+<body>
+
+<section id="name-screen" class="active">
+  <img src="logo.png" alt="Binary Fun Logo" id="game-logo">
+
+    <img src="name_prompt.png" alt="Please Enter Your Name" id="name-prompt-logo">
+
+  <input type="text" id="username" placeholder="ชื่อของคุณ">
+
+  <img src="start_game_button.png" alt="Start Game Button" id="start-game-img-btn">
+</section>
+
+<section id="loading-screen">
+  <div class="loader"></div>
+  <p>กำลังโหลดเกม...</p>
+</section>
+
+<section id="chapter-select-screen">
+    <img src="chapterlogo.png" alt="เลือกบท" id="chapter-select-title">
+    <div id="total-score-container">
+        <span class="score-icon">⭐</span>
+        Point: <span id="player-total-score">0</span>
+    </div>
+
+    <div class="chapter-buttons-container">
+      <button class="chapter1-img-btn" data-chapter="1">บทที่ 1</button>
+
+      <button class="chapter2-img-btn locked" data-chapter="2">บทที่ 2</button>
+
+      <button class="chapter3-img-btn locked" data-chapter="3">บทที่ 3</button>
+
+      <button class="chapter4-img-btn locked" data-chapter="4">บทที่ 4</button>
+
+      <button class="chapter5-img-btn locked" data-chapter="5">บทที่ 5</button>
+
+      <button class="chapter6-img-btn locked" data-chapter="6">บทที่ 6</button>
+
+      <button class="chapter7-img-btn locked" data-chapter="7">บทที่ 7</button>
+
+      <button class="chapter8-img-btn locked" data-chapter="8">บทที่ 8</button>
+
+      <button class="chapter9-img-btn locked" data-chapter="9">บทที่ 9</button>
+
+      <button class="chapter10-img-btn locked" data-chapter="10">บทที่ 10</button>
+     </div>
+
+    <button id="back-to-menu-btn">
+        &#9664; Back To Menu
+    </button> 
+
+    <div class="bottom-right-panel">
+        <button id="shop-btn" class="pixel-btn btn-shop">
+            🛒 Shop
+        </button>
+    </div>
+
+</section>
+
+<section id="shop-screen">
+    <h1 class="shop-title">🛒 ITEM SHOP</h1>
+
+    <div class="shop-balance">
+        🌟 Points: <span id="shop-user-points">0</span>
+    </div>
+
+    <div class="shop-grid" id="shop-items-container">
+        </div>
+
+    <button class="pixel-btn btn-back-shop" onclick="showSection('chapter-select-screen')">
+        ❌
+    </button>
+</section>
+
+<div id="buy-confirm-modal" class="modal">
+    <div class="modal-content shop-confirm-box">
+        <span class="close-btn" onclick="closeBuyModal()">&times;</span>
+        
+        <h3 id="confirm-item-name">ชื่อไอเทม</h3>
+        
+        <div class="confirm-item-icon" id="confirm-item-icon">⚡</div>
+        
+        <p id="confirm-item-desc">คำอธิบายไอเทม...</p>
+        
+        <div class="confirm-price-tag">
+            ราคา: <span id="confirm-item-price">0</span> 💎
+        </div>
+
+        <div class="confirm-actions">
+            <button id="btn-confirm-buy" class="pixel-btn btn-buy-yes">
+                ✅ ซื้อเลย
+            </button>
+            <button onclick="closeBuyModal()" class="pixel-btn btn-buy-no">
+                ❎ ยกเลิก
+            </button>
+        </div>
+    </div>
+</div>
+
+<section id="game-container">
+  <div id="active-buff-indicator" style="display:none;">
+      ⚡ x2 Score: <span id="buff-timer">00:00</span>
+  </div>
+
+  <h2>🔢 Question</h2>
+
+  <div class="timer-wrapper">
+    <div id="timer-container">
+      <div id="timer-bar"></div>
+  </div>
+  <span id = "timer-countdown">15</span> </div>
+
+    <div id="question"></div>
+  <div class="answers">
+    <button class="answer-btn"></button>
+    <button class="answer-btn"></button>
+    <button class="answer-btn"></button>
+    <button class="answer-btn"></button>
+  </div>
+  <p>🌟 : <span id="score">0</span></p>
+</section>
+
+<section id="result-screen">
+  <img src="game_complete_logo.png" alt="Game Complete!" id="game-complete-logo">
+
+  <p>👤 :   <span id="final-name"></span></p> 
+  <p>🌟 :   <span id="final-score"></span></p>
+
+  <img src="top.png" alt="TOP Highscore" id="top-logo">
+
+  <ul id="highscore-list"></ul>
+  <button id="play-again-btn">
+    🔄PlayAgain
+  </button>
+</section>
+
+<audio id="bg-music" src="music.mp3" loop></audio>
+
+<button id="mute-btn">🔇</button>
+
+<div id="tutorial-modal" class="modal">
+  <div class="modal-content tutorial-content">
+
+  <span class="close-btn tutorial-close-btn">&times;</span>
+
+  <h3 class="tutorial-title">วิธีเล่น Binary Fun !</h3>
+  <p class="tutorial-text">
+    <span>🚀</span> แปลงเลขฐานให้ถูกต้อง<br>
+    <span>⏱️</span> ตอบให้ไว! มีเวลาจำกัด<br>
+    <span>⬆️</span> ทำคะแนนสูงสุดเพื่อติดอันดับ
+  </p>
+   <button id="tutorial-ok-btn" class="tutorial-ok-btn">เข้าใจแล้ว!</button>
+  </div>
+</div>
+
+<div id="modal-container" class="modal"> 
+     <div class="modal-content">
+        <span class="close-btn">&times;</span>
+ 
+        <h3>🚨 ข้อผิดพลาด</h3> 
+ 
+        <p id="modal-message">กรุณากรอกชื่อของคุณเพื่อเริ่มเกม!</p>
+ 
+        <button id="modal-ok-btn">Ok!</button>
+    </div>
+</div>
+
+<div id="active-buff-indicator" style="display:none;">
+    ⚡ x2 Score: <span id="buff-timer">00:00</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

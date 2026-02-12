@@ -1,0 +1,1168 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+/* Reset & layout */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+    font-family: Arial, sans-serif; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%;
+    min-height: 100vh; 
+    padding: 20px; 
+    text-align: center;
+    color: white; 
+    background-image: url('background.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat ;
+    background-attachment: fixed;
+    background-color: #333;
+    background-blend-mode: overlay;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('background.gif');
+    overflow-y: auto;
+}
+
+/* Sections */
+section { display: none; width: 90%; max-width: 500px; margin: auto; overflow: visible;}
+section.active { display: block; }
+
+/* Loader */
+.loader { border: 10px solid #f3f3f3; border-top: 10px solid #3498db; border-radius: 50%; width: 80px; height: 80px; margin: 50px auto; animation: spin 1s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+@keyframes neonGlow {
+    0%, 100% {
+        filter: drop-shadow(-5px 0 10px rgba(138, 43, 226, 0.7)) /* ม่วงทางซ้าย */
+                drop-shadow(5px 0 10px rgba(0, 191, 255, 0.7)); /* ฟ้าทางขวา */
+    }
+    50% {
+        filter: drop-shadow(-7px 0 15px rgba(138, 43, 226, 1)) /* ม่วงเข้มขึ้น */
+                drop-shadow(7px 0 15px rgba(0, 191, 255, 1)); /* ฟ้าเข้มขึ้น */
+    }
+}
+
+#top-logo{
+  max-width: 70%;
+  width: 110px;
+  height: auto;
+  margin-top: 55px;
+  margin-bottom: 1px;
+  animation: neonGlow 2s infinite ease-in-out alternate;
+}
+
+@keyframes rainbowBorder{
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+
+@keyframes pulseGlow{
+  0%, 100%{
+    transition: scale(1);
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 10px rgba(0, 255, 255, 0.4));
+  }
+  50%{
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+  }
+}
+
+#game-complete-logo{
+  max-width: 90%;
+  width: 350px;
+  height: auto;
+  margin-bottom: 60px;
+  animation: pulseGlow 2s infinite ease-in-out alternate;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+/* Inputs & Buttons */
+input[type="text"] { padding: 10px; width: 80%; max-width: 300px; font-size: 1.2rem; border-radius: 8px; border: 1px solid #ccc; text-align: center; margin-top: 10px; }
+button, .answer-btn { padding: 12px 20px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; margin: 10px 0; width: 80%; max-width: 250px; }
+#play-again-btn { background-color: #f39c12; color: white; } 
+#play-again-btn:hover { background-color: #e67e22; transform: scale(1.05); }
+.answer-btn { background-color: #3498db; color: white; border: none; } 
+.answer-btn:hover { background-color: #2980b9; }
+
+/* Text */
+#question { font-size: 1.5rem; margin: 20px 0; }
+#score, #final-score { font-size: 1.3rem; font-weight: bold; }
+ul { text-align: left; padding-left: 20px; margin-top: 10px; }
+
+/* Responsive */
+@media (max-width: 400px) {
+  #question { font-size: 1.2rem; }
+  .answer-btn, button { font-size: 1rem; padding: 10px 15px; }
+}   
+
+#username {
+  padding: 12px 15px;
+  width: 80%;
+  max-width: 300px;
+  font-size: 1.2rem;
+  text-align: center;
+  background-color: #ecf0f1;
+  color: #34495e;
+  border: 4px solid #2c3e50;
+  border-radius: 8px;
+  box-shadow: 4px 4px 0px 0px #2c3e50,
+              0 0 10px rgba(52, 152, 219, 0.4);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+#username:focus{
+  border-color: #3498db;
+  box-shadow: 4px 4px 0px 0px #3498db,
+              0 0 15px rgba(52, 152, 219, 0.8);
+  background-color: #ffffff;
+}
+
+#username::placeholder{
+  color: #95a5a6;
+  opacity: 1;
+}
+
+#start-game-img-btn{
+  width: 210px;
+  max-width: 70%;
+  height: auto;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: tranform 0.2s ease-in-out;
+}
+
+#start-game-img-btn:hover{
+  transform: scale(1.05);
+}
+
+#game-logo {
+  max-width: 90%;
+  width: 400px;
+  height: auto;
+  margin-bottom: 60px;
+  border-radius: 10px;
+}
+
+#name-prompt-logo {
+    /* กำหนดขนาดให้เล็กและเหมาะสม */
+    width: 199px; /* หรือปรับให้เล็กกว่านี้ เช่น 200px */
+    max-width: 50%; 
+    height: auto;
+    margin: 15px 0 5px 0; /* เว้นระยะห่างด้านบน/ล่าง */
+    
+    animation: blink 1.5s infinite alternate;
+}
+
+.timer-wrapper {
+  display:flex;
+  align-items: center;
+  width: 100%;
+  margin: 15px auto;
+}
+
+#timer-countdown{
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 10px;
+  min-width: 25px;
+  text-align: left;
+}
+
+#timer-container {
+  width: 100%;
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 15px auto;
+  border:1px solid #555;
+}
+
+#timer-bar {
+  height: 100%;
+  width: 100%;
+  background-color: #2ecc71;
+  border-radius: 5px;
+  transition: width 0.2s linear;
+}
+
+#timer-bar.low-time {
+  background-color: #e74c3c;
+}
+
+#highscore-list {
+  list-style: none;
+  padding: 0;
+  border: 1px solid #555;
+  margin-top: 15px;
+  background-color: rgba(10, 20, 30, 0.8);
+  backdrop-filter: blur(5px);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-height: 250px;
+  overflow-y: auto;
+}
+#highscore-list li {
+    padding: 12px 18px;
+    border-bottom: 1px solid #444;
+    font-size: 1.1rem;  
+    text-align: left;
+    color: #f0f0f0;
+}
+#highscore-list li:last-child {
+    border-bottom: none; /* ไม่ต้องมีเส้นขีดที่อันสุดท้าย */
+}
+#highscore-list li.rank-gold { 
+    /* 🏆 เน้นอันดับ 1 */
+    font-weight: bold;
+    color: #ffd700; /* สีทองเข้ม */
+    background-color: rgba(255, 215, 0, 0.1); /* สีครีม */
+}
+#highscore-list li.rank-silver { 
+    /* 🏆 เน้นอันดับ 2 */
+    background-color: rgba(192, 192, 192, 0.1);
+    color:#c0c0c0;
+}
+#highscore-list li.rank-bronze { 
+    /* 🏆 เน้นอันดับ 3 */
+    background-color: rgba(205, 127, 50, 0.1); 
+    color:#cd7f32;
+}
+.answer-btn.correct {
+    background-color: #2ecc71; /* สีเขียว */
+    color:  white;
+    transform: scale(1.05); /* ขยายเล็กน้อย */
+}
+.answer-btn.incorrect {
+    background-color: #e74c3c; /* สีแดง */
+    color: white;
+    opacity: 0.7; /* ทำให้จางลงเล็กน้อย */
+}
+.answer-btn.disabled {
+    pointer-events: none; 
+}
+#mute-btn {
+  position: fixed; /* ให้อยู่กับที่ ไม่เลื่อนตาม */
+  bottom: 20px;    /* ห่างจากขอบล่าง 20px */
+  left: 20px;      /* ห่างจากขอบซ้าย 20px */
+  
+  /* ทำให้เป็นปุ่มกลม */
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem; /* ขนาดไอคอน */
+  border-radius: 50%; /* ทำให้กลม */
+
+  /* ดีไซน์ */
+  background-color: #ffffff;
+  border: 2px solid #3498db;
+  color: #3498db;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+  /* จัดไอคอนให้อยู่กลาง */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* ลบ padding เดิม */
+  
+  z-index: 1000; /* ให้ปุ่มอยู่เหนือองค์ประกอบอื่น */
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+#mute-btn:hover {
+  transform: scale(1.1);
+  background-color: #f4f4f9;
+}
+.modal {
+  display: none !important; /* ซ่อนไว้ก่อน */
+  position: fixed; 
+  z-index: 3000; /* ให้อยู่ด้านหน้าสุด */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7); /* พื้นหลังทึบแสง */
+  backdrop-filter: blur(3px);
+}
+
+.modal.active {
+    display: flex !important; /* แสดงเมื่อมีคลาส active */
+    justify-content: center;
+    align-items: center;
+    transform: none !important;
+}
+
+.modal-content {
+  background-color: #f7e1a1;
+  color:#6a4025;
+  margin: auto;
+  padding: 30px 25px;
+  width: 80%;
+  max-width: 380px;
+  border-radius: 12px;
+  position: relative;
+  text-align: center;
+  overflow: visible;
+  z-index: 200;
+  
+  box-shadow: 8px 8px 0px 0px #a0522d,
+              -4px -4px 0px 0px #fff7d5;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modal-content::before{
+  content: none;
+}
+
+.modal-content h3 {
+    font-family: 'Press Start 2p', cursive;
+    color: #e74c3c;
+    margin-bottom: 15px;
+    font-size: 1.7rem;
+    text-shadow: 2px 2px 0 #fff;
+    line-height: 1.2;
+}
+
+.modal-content p {
+    font-family: 'VT323', monospace;
+    display: block !important;
+    visibility: visible !important;
+    color: #5a2c0f !important;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 1.3rem;
+    line-height: 1.5;
+}
+
+.close-btn {
+  color: #a0522d;
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 #fff;
+  transition: color 0.2s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: #8b4513;
+}
+
+#modal-ok-btn {
+    background-color: #6cb65f;
+    color: white;
+    border: none;
+    padding: 14px 25px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+
+    box-shadow: 5px 5px 0px 0px #3a7536;
+
+    width: 100%;
+    max-width: 180px;
+    transition: all 0.2s ease-out;
+    font-family: 'Press Start 2P', cursive;
+}
+
+#modal-ok-btn:hover {
+    background-color: #5aa150;
+    transform: translateY(-2px) translateX(-2px); /* ล้าง transform ของปุ่มหลัก */
+    box-shadow: 7px 7px 0px 0px #3a7536;
+}
+
+.tutorial-content {
+  background-color: #ffe6aa;
+  border: 5px solid #a0522d;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 10px 10px 0px 0px #a0522d,
+              -5px -5px 0px 0px #ffcc80;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  overflow: visible;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  80% { transform: scale(1.1); opacity: 1;}
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.tutorial-content::before{
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: 3px dashed #ff8c00;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: -1;
+  animation: borderPulse 2s infinite alternate;
+}
+
+@keyframes borderPulse {
+  0% { opacity: 0.7; transform: scale(1); }
+  100% {opacity: 1; transform: scale(1.02); }
+}
+
+.tutorial-title{
+  font-family: 'Press Start 2P', cursive;
+  color: #8b4513;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 0 #fff;
+  line-height: 1.2;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.tutorial-text{
+  font-family: 'VT323', monospace;
+  color: #5a2c0f;
+  font-size: 1.3rem;
+  margin-bottom: 25px;
+  line-height: 1.6;
+  text-align: left;
+  padding-left: 20px;
+  position: relative;
+}
+
+.tutorial-text span{
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 1.5rem;
+  vertical-align: middle;
+  animation: bounceIcon 1s infinite alternate;
+}
+
+@keyframes bounceIcon {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+.tutorial-ok-btn {
+    background-color: #4CAF50; /* สีเขียวสดใส */
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 5px 5px 0px 0px #2e8b57; /* เงา Pixel Art */
+    font-family: 'Press Start 2P', cursive;
+}
+
+.tutorial-ok-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px) translateX(-2px); /* ยกขึ้นเล็กน้อย */
+    box-shadow: 7px 7px 0px 0px #2e8b57;
+}
+
+.tutorial-close-btn {
+    color: #a0522d; /* สีเดียวกับขอบ */
+    font-size: 35px; /* ใหญ่ขึ้น */
+    right: 18px;
+    top: 10px;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+.tutorial-close-btn:hover,
+.tutorial-close-btn:focus {
+    color: #8b4513; /* เข้มขึ้นเมื่อ hover */
+}
+
+/* เพิ่มปุ่ม Tutorial บนหน้าจอชื่อ */
+#name-screen::before {
+    content: '❔'; /* ไอคอนคำถาม */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 2.5rem;
+    color: #ffd700; /* สีทอง */
+    text-shadow: 2px 2px 0px #b8860b;
+    cursor: pointer;
+    z-index: 1001; /* ให้อยู่เหนือทุกสิ่ง */
+    transition: transform 0.2s ease-in-out;
+    animation: neonGlow 1.5s infinite alternate; /* ใช้แอนิเมชัน neonGlow ที่มีอยู่แล้ว */
+}
+
+#name-screen::before:hover {
+    transform: scale(1.1);
+}
+
+#result-screen p {
+    font-family: 'Press Start 2P', cursive;
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin: 15px auto;
+    line-height: 1.4;
+    max-width: 80%;
+}
+
+#final-name {
+    color: #ffffff; 
+    display: inline-block;
+    animation: pulse 1.5s infinite alternate;
+
+    text-shadow: 
+                -2px -2px 0px #000,
+                 2px -2px 0px #000,
+                -2px 2px 0px #000,
+                 2px 2px 0px #000,
+
+                -2px -2px 0px #00ffff,
+                -3px -3px 0px #00ffff,
+                -4px -4px 0px #00ffff,
+
+                2px 2px 0px #ff00ff,
+                3px 3px 0px #ff00ff,
+                4px 4px 0px #ff00ff;
+}
+
+#final-score {
+    color: #ffffff; /* สีเขียวสดใสสำหรับคะแนน */
+    display: inline-block;
+    animation: pulse 1.5s infinite alternate;
+
+    text-shadow: 
+                -2px -2px 0px #000,
+                 2px -2px 0px #000,
+                -2px 2px 0px #000,
+                 2px 2px 0px #000,
+
+                -2px -2px 0px #00ffff,
+                -3px -3px 0px #00ffff,
+                -4px -4px 0px #00ffff,
+
+                2px 2px 0px #ff00ff,
+                3px 3px 0px #ff00ff,
+                4px 4px 0px #ff00ff;
+}
+
+@keyframes pulse{
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1);}
+}
+
+#chapter-select-title{
+  display: block;
+  width: 300px;
+  max-width: 90%;
+  height: auto;
+  margin: 30px auto;
+  animation: neonGlow 2s infinite ease-in-out alternate;
+}
+
+.chapter-buttons-container {
+    display: grid;
+    
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 25px; 
+
+    max-width: 1200px;
+    width: 95%;
+
+    margin: 40px auto;
+
+    padding: 10px;
+
+}
+@media (max-width: 768px){
+  .chapter-buttons-container{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+.chapter1-img-btn, .chapter2-img-btn, .chapter3-img-btn, 
+.chapter4-img-btn, .chapter5-img-btn, .chapter6-img-btn, 
+.chapter7-img-btn, .chapter8-img-btn, .chapter9-img-btn, 
+.chapter10-img-btn {
+    /* 🟢 สไตล์พื้นฐาน */
+    width: 100%;
+    height: 70px; /* กำหนดความสูงเพื่อให้เห็นปุ่มชัดเจน (ปรับตามขนาดรูปภาพจริง) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 0; 
+    border: none;
+    
+    /* 🟢 การจัดการรูปภาพพื้นหลัง */
+    background-size: contain; /* ทำให้รูปภาพคลุมพื้นที่ปุ่มทั้งหมด */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent !important;
+    border: none;
+    outline: none;
+
+    /* 🟢 เอฟเฟกต์ 3D และ Hover */
+    filter: drop-shadow(4px 4px 0px #2c2c2c);
+    transition: transform 0.1s ease-out, filter 0.1s ease-out;
+    
+    /* 🟢 ซ่อนข้อความ (เพื่อให้เห็นแต่รูปภาพ) */
+    color: transparent; /* ซ่อนสีข้อความ */
+    text-indent: -9999px; /* เลื่อนข้อความออกไปนอกจอ */
+    overflow: hidden;
+}
+
+/* 🟢 เอฟเฟกต์ Hover และ Active */
+.chapter1-img-btn:hover, .chapter2-img-btn:hover, .chapter3-img-btn:hover, 
+.chapter4-img-btn:hover, .chapter5-img-btn:hover, .chapter6-img-btn:hover, 
+.chapter7-img-btn:hover, .chapter8-img-btn:hover, .chapter9-img-btn:hover, 
+.chapter10-img-btn:hover {
+    transform: translateY(-2px); 
+    filter: drop-shadow(6px 6px 0px #2c2c2c); 
+}
+
+.chapter1-img-btn:active, .chapter2-img-btn:active, .chapter3-img-btn:active, 
+.chapter4-img-btn:active, .chapter5-img-btn:active, .chapter6-img-btn:active, 
+.chapter7-img-btn:active, .chapter8-img-btn:active, .chapter9-img-btn:active, 
+.chapter10-img-btn:active {
+    transform: translateY(2px);
+    filter: drop-shadow(2px 2px 0px #2c2c2c); 
+}
+
+
+/* =========================================
+   2. กำหนดรูปภาพพื้นหลังเฉพาะสำหรับแต่ละปุ่ม
+   ========================================= */
+
+.chapter1-img-btn {
+    background-image: url('chapter1-btn.png'); 
+}
+
+.chapter2-img-btn {
+    background-image: url('chapter2-btn.png');
+}
+
+.chapter3-img-btn {
+    background-image: url('chapter3-btn.png');
+}
+
+.chapter4-img-btn {
+    background-image: url('chapter4-btn.png');
+}
+
+.chapter5-img-btn {
+    background-image: url('chapter5-btn.png');
+}
+
+.chapter6-img-btn {
+    background-image: url('chapter6-btn.png');
+}
+
+.chapter7-img-btn {
+    background-image: url('chapter7-btn.png');
+}
+
+.chapter8-img-btn {
+    background-image: url('chapter8-btn.png');
+}
+
+.chapter9-img-btn {
+    background-image: url('chapter9-btn.png');
+}
+
+.chapter10-img-btn {
+    background-image: url('chapter10-btn.png');
+}
+
+.chapter-img-btn.locked{
+  filter: grayscale(100%) brightness(50%);
+  cursor: not-allowed;
+  pointer-events: none;
+  position: relative;
+  opacity: 0.8;
+}
+
+.chapter-img-btn.locked:hover,
+.chapter-img-btn.locked:active {
+    transform: none;
+    filter: grayscale(100%) brightness(50%);
+}
+
+.chapter-img-btn.locked::after {
+    content: '🔒'; /* ใช้อิโมจิแม่กุญแจ (หรือใส่ url รูปกุญแจก็ได้) */
+    font-size: 40px; /* ขนาดกุญแจ */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* จัดกึ่งกลางเป๊ะๆ */
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.8); /* เงาให้กุญแจเด่นขึ้น */
+    filter: none; /* ไม่ให้กุญแจโดนเอฟเฟกต์ขาวดำไปด้วย (แต่บาง Browser อาจจะโดน) */
+    z-index: 10;
+}
+
+#back-to-menu-btn{
+  position: relative;
+  display: block;
+  margin: 20px auto;
+
+  bottom: auto;
+  left: auto;
+  transform: none;
+  z-index: 10;
+
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  text-transform: uppercase;
+
+  color: #ffffff;
+  background-color: #4facfe; /* สีฟ้าสดใส */
+  
+  border: 4px solid #1e3c72; 
+  border-radius: 12px; 
+  box-shadow: 0px 6px 0px #1e3c72, 
+                0px 6px 10px rgba(0,0,0,0.2);
+    
+    /* ขนาด */
+  padding: 15px 20px;
+  width: fit-content; /* กว้างเท่าเนื้อหา */
+  min-width: 220px;   /* แต่ไม่เล็กกว่า 220px */
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.1s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.chapter-buttons-container button.locked {
+  position: relative !important;
+  border: none !important;
+  pointer-events: none;
+  filter: none !important;
+  outline: none !important;
+}
+
+.chapter-buttons-container button.locked::before {
+  content: '';
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.6);
+
+  border-radius: 0;
+  z-index: 5;
+}
+
+.chapter-buttons-container button.locked::after{
+  content: '';
+
+  background-image: url('lock.gif');
+
+  /* 📏 ปรับขนาดพื้นที่แสดงผลให้เหมาะกับรูปทรงสูงของคุณ */
+    width: 40px;  
+    height: 60px; 
+    
+    /* จัดการแสดงผลรูป */
+    background-size: contain; /* ย่อขยายรูปให้พอดีกรอบ ไม่โดนตัด */
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    /* จัดกึ่งกลางปุ่ม */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* 🟢 สำคัญมาก! ต้องอยู่สูงกว่าชั้นสีดำ */
+    z-index: 10; 
+    
+    /* เพิ่มเงาขาวรอบๆ กุญแจนิดนึงเพื่อให้เด้งออกมาจากพื้นหลังมืดๆ */
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+}
+
+#total-score-container {
+    font-family: 'Press Start 2P', cursive; /* ฟอนต์เกม */
+    font-size: 1.2rem;
+    color: #ffd700; /* สีทอง */
+    
+    background-color: rgba(0, 0, 0, 0.6); /* พื้นหลังดำโปร่งแสง */
+    border: 3px solid #fff;
+    border-radius: 15px;
+    
+    padding: 15px 30px;
+    margin: 10px auto 30px auto; /* จัดกึ่งกลางและเว้นระยะ */
+    width: fit-content;
+    
+    /* เงาแบบ Pixel */
+    box-shadow: 4px 4px 0px #000, 
+                0 0 15px rgba(255, 215, 0, 0.5); /* แสงฟุ้งสีทอง */
+    
+    text-shadow: 2px 2px 0 #000;
+    animation: floatScore 3s infinite ease-in-out;
+}
+
+.score-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+@keyframes floatScore {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* ปรับมือถือ */
+@media (max-width: 600px) {
+    #total-score-container {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+        width: 90%;
+    }
+}
+
+#play-again-btn {
+    /* ฟอนต์เกม */
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
+
+    /* 🎨 สีเขียวสดใส (เข้ากับธีม Pixel) */
+    background-color: #2ecc71; 
+    border: 4px solid #27ae60; /* ขอบสีเขียวเข้ม */
+    border-radius: 10px; /* มนเล็กน้อยให้น่ารัก */
+    
+    /* 📦 เงาแบบ Pixel 3D (สำคัญมาก!) */
+    box-shadow: 0px 6px 0px #27ae60, 
+                0px 10px 15px rgba(0,0,0,0.3);
+
+    /* จัดวาง */
+    display: block;
+    padding: 15px 30px;
+    margin: 20px auto; /* จัดกึ่งกลาง */
+    width: fit-content;
+    min-width: 200px;
+    
+    /* อนิเมชั่น */
+    transition: all 0.1s;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ชี้ (ลอยขึ้น) */
+#play-again-btn:hover {
+    background-color: #4cd137; /* สว่างขึ้น */
+    transform: translateY(-3px);
+    box-shadow: 0px 9px 0px #27ae60, 
+                0px 15px 20px rgba(0,0,0,0.3);
+}
+
+/* เอฟเฟกต์ตอนกด (ยุบลง) */
+#play-again-btn:active {
+    transform: translateY(6px);
+    box-shadow: 0px 0px 0px #27ae60; /* เงาหายไปเหมือนถูกกดจม */
+}
+
+.bottom-right-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+/* 🎨 สไตล์ปุ่มร้านค้า (สีม่วงพรีเมียม Pixel) */
+.btn-shop {
+    background-color: #9b59b6; /* สีม่วง */
+    border: 3px solid #8e44ad;
+    box-shadow: 0px 4px 0px #8e44ad, 0px 5px 10px rgba(0,0,0,0.3);
+    color: white;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.9rem; /* ปรับขนาดตัวหนังสือให้อ่านง่าย */
+    padding: 12px 20px;
+    width: auto;
+    min-width: 120px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.1s;
+    text-transform: uppercase;
+}
+
+.btn-shop:hover {
+    background-color: #a569bd; /* สว่างขึ้นตอนชี้ */
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 0px #8e44ad;
+}
+
+.btn-shop:active {
+    transform: translateY(4px); /* ยุบลงตอนกด */
+    box-shadow: 0px 0px 0px #8e44ad;
+}
+
+/* 📱 ปรับแต่งมือถือ */
+@media (max-width: 600px) {
+    .bottom-right-panel {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .btn-shop {
+        font-size: 0.7rem;
+        padding: 10px 15px;
+        min-width: auto;
+    }
+}
+
+#shop-screen {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    padding-top: 60px;
+    background-color: rgba(44, 62, 80, 0.95);
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 2000;
+}
+
+#shop-screen.active {
+    display: flex !important;
+}
+
+.shop-title {
+    font-family: 'Press Start 2P', cursive;
+    color: #f1c40f;
+    text-shadow: 3px 3px 0 #d35400;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.shop-balance {
+    font-family: 'Press Start 2P', cursive;
+    color: #fff;
+    background-color: rgba(0,0,0,0.5);
+    padding: 10px 20px; /* ⬇️ ลด padding */
+    border-radius: 8px;
+    border: 2px solid #fff;
+    margin-bottom: 20px;
+    font-size: 0.9rem; /* ⬇️ ตัวหนังสือเล็กลง */
+}
+
+/* ตารางสินค้า */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* ⬇️ การ์ดเล็กลงเริ่มที่ 130px */
+    gap: 15px;
+    width: 90%;
+    max-width: 600px; /* ⬇️ จำกัดความกว้างรวมไม่ให้บาน */
+    justify-items: center;
+}
+
+/* การ์ดสินค้าแต่ละชิ้น */
+.shop-item-card {
+    background-color: #fff;
+    border: 3px solid #34495e;
+    border-radius: 10px;
+    padding: 10px; /* ⬇️ ลดพื้นที่ภายใน */
+    width: 100%;
+    max-width: 140px; /* ⬇️ การ์ดกว้างสุดแค่ 140px */
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.1s;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.shop-item-card:hover {
+    transform: translateY(-3px);
+    border-color: #f1c40f;
+}
+
+.item-icon {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.item-name {
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem; /* ⬇️ ชื่อเล็กลง */
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    line-height: 1.1;
+}
+
+.item-price {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.6rem; /* ⬇️ ราคาตัวเล็กๆ น่ารัก */
+    color: #e67e22;
+    background: #fce4ec;
+    padding: 3px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* ปุ่มปิดร้าน */
+.btn-back-shop {
+    position: absolute; /* ลอยอิสระ */
+    top: 20px;          /* ชิดขอบบน */
+    right: 20px;        /* ชิดขอบขวา */
+    margin: 0;          /* ลบ margin เดิม */
+    
+    width: 45px;        /* ปรับเป็นสี่เหลี่ยมจัตุรัส */
+    height: 45px;
+    padding: 0;
+    
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #e74c3c;
+    border: 3px solid #c0392b;
+    border-radius: 8px;
+    box-shadow: 0 4px 0 #c0392b;
+    z-index: 2001;
+}
+
+.btn-back-shop:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+}
+
+.btn-back-shop:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+
+/* =========================================
+   🛍️ Confirm Modal Styles (Popup ซื้อของ)
+   ========================================= */
+.shop-confirm-box {
+    background-color: #fffacd !important; /* สีครีมเหลือง */
+    border: 5px solid #ff9800 !important;
+    color: #333;
+    width: 90%;
+    max-width: 400px;
+}
+
+.confirm-item-icon {
+    font-size: 4rem;
+    margin: 20px 0;
+    animation: pulse 1s infinite;
+}
+
+#confirm-item-desc {
+    font-family: 'VT323', monospace;
+    font-size: 1.4rem;
+    color: #5d4037;
+    margin-bottom: 20px;
+}
+
+.confirm-price-tag {
+    font-family: 'Press Start 2P', cursive;
+    color: #d35400;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    background: #ffe0b2;
+    padding: 10px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-buy-yes {
+    background-color: #2ecc71;
+    border: 3px solid #27ae60;
+    box-shadow: 0 4px 0 #27ae60;
+    font-size: 0.8rem;
+    min-width: 100px;
+}
+
+.btn-buy-no {
+    background-color: #e74c3c;
+    border: 3px solid #c0392b;
+    box-shadow: 0 4px 0 #c0392b;
+    font-size: 0.8rem;
+    min-width: 100px;
+}
+
+/* Buff Indicator (แสดงตอนเล่นเกม) */
+#active-buff-indicator {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(46, 204, 113, 0.9);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7rem;
+    border: 2px solid white;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+    z-index: 999;
+    animation: pulse 1s infinite;
+}
+
+/* แถบแสดง Buff (ย้ายมาข้างล่างตรงกลาง) */
+/* =========================================
+   ⚡ แก้ไขแถบ Buff (ไม่ให้ยืดเต็มจอ)
+   ========================================= */
+#active-buff-indicator {
+    /* ใช้ fixed เพื่อให้ลอยเหนือทุกอย่าง และไม่อิงกับกล่องอื่น */
+    position: fixed !important; 
+    
+    /* ❌ ยกเลิกค่า Top เพื่อไม่ให้ยืด */
+    top: auto !important;
+    
+    /* ✅ จัดวางข้างล่าง ตรงกลาง */
+    bottom: 30px !important; 
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    
+    /* 📏 บังคับขนาดให้พอดีเนื้อหา ห้ามยืด! */
+    width: auto !important;
+    height: auto !important;
+    min-width: 220px;
+    
+    /* 🎨 ตกแต่ง */
+    background-color: #2ecc71; /* สีเขียว */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px; /* ทรงแคปซูลมนๆ */
+    
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.9rem;
+    border: 3px solid #fff;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.3);
+    
+    z-index: 9999; /* อยู่บนสุดเสมอ */
+    display: none; /* ซ่อนไว้ก่อน */
+    text-align: center;
+    animation: pulse 1s infinite;
+}
