@@ -1,3 +1,10 @@
+function playClickSound() {
+    const clickSound = document.getElementById("click-sound");
+    if (clickSound) {
+        clickSound.currentTime = 0; // รีเซ็ตเสียงให้เริ่มใหม่ทุกครั้งที่กด
+        clickSound.play().catch(e => console.log("Audio play blocked"));
+    }
+}
 // ----------------------------------------------------------------
 // 1. 📍 ประกาศตัวแปรและ DOM Elements ทั้งหมดไว้ข้างบน
 // ----------------------------------------------------------------
@@ -396,8 +403,13 @@ function loadQuestion() {
 // 4.5 ตรวจคำตอบ
 function checkAnswer(selected, correct) {
     clearInterval(timerInterval);
-
     const buttons = document.querySelectorAll(".answer-btn");
+    
+    if (selected === correct) {
+        document.getElementById("correct-sound").play();
+        score +=1;
+    }else
+        document.getElementById("wrong-sound").play();
 
     buttons.forEach(btn => {
         btn.onclick = null;
@@ -612,15 +624,15 @@ function checkAndUnlockChapters() {
     }
     // กติกาปลดล็อค 
     const unlockRules = {
-        2: 10,
-        3: 50,
-        4: 100,
-        5: 150,
-        6: 200,
-        7: 300,
-        8: 400,
-        9: 500,
-        10: 1000,
+        2: 5,
+        3: 15,
+        4: 25,
+        5: 40,
+        6: 55,
+        7: 75,
+        8: 100,
+        9: 130,
+        10: 160,
     }
     for (const [chapter, requiredScore] of Object.entries(unlockRules)) {
         const btn = document.querySelector(`.chapter${chapter}-img-btn`);
@@ -762,8 +774,34 @@ const shopItems = [
         duration: 120, 
         icon: '⚡',
         desc: 'คูณคะแนน 2 เท่า นาน 2 นาที!'
+    },
+    {
+        id: "teacher_help",
+        name: "ครูมาช่วย",
+        icon: "👨‍🏫",
+        desc: "คุณครูจะมาบอกใบ้และช่วยตอบ 3 นาที!",
+        price: 10,
+        type: "timer_buff"
     }
 ];
+
+let teacherHelpActive = false; // ตัวแปรเช็คว่าครูช่วยอยู่ไหม
+
+function activateTeacherHelp() {
+    teacherHelpActive = true;
+    showModal("คุณครูมาแล้ว! ครูจะช่วยบอกใบ้ให้ 3 นาทีนะจ๊ะ");
+
+    // สร้างแถบแจ้งเตือนพิเศษบนหน้าจอ (ถ้ามี)
+    const hintArea = document.getElementById("question");
+    if(hintArea) hintArea.style.color = "#2ecc71"; // เปลี่ยนสีคำถามให้รู้ว่าครูช่วยอยู่
+
+    // จับเวลา 3 นาที (180 วินาที)
+    setTimeout(() => {
+        teacherHelpActive = false;
+        if(hintArea) hintArea.style.color = ""; // กลับเป็นสีเดิม
+        showModal("หมดเวลาช่วยแล้วนะจ๊ะ ลองทำเองต่อดูนะ!");
+    }, 180000); 
+}
 
 // 3. สั่งให้ปุ่ม "ร้านค้า" ทำงาน
 const shopBtn = document.getElementById("shop-btn");
@@ -946,3 +984,10 @@ if (secretLogo) {
         }
     });
 }
+
+// ใส่เสียงให้ทุกปุ่มที่มีในหน้าเว็บโดยอัตโนมัติ
+document.addEventListener('click', (event) => {
+    if (event.target.tagName === 'BUTTON' || event.target.closest('button')) {
+        playClickSound();
+    }
+});
