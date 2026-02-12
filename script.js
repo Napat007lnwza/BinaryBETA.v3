@@ -1,10 +1,4 @@
-function playClickSound() {
-    const clickSound = document.getElementById("click-sound");
-    if (clickSound) {
-        clickSound.currentTime = 0; // รีเซ็ตเสียงให้เริ่มใหม่ทุกครั้งที่กด
-        clickSound.play().catch(e => console.log("Audio play blocked"));
-    }
-}
+
 // ----------------------------------------------------------------
 // 1. 📍 ประกาศตัวแปรและ DOM Elements ทั้งหมดไว้ข้างบน
 // ----------------------------------------------------------------
@@ -362,7 +356,6 @@ document.querySelectorAll(".chapter-buttons-container button").forEach(button =>
 
 // 4.4 โหลดคำถาม
 function loadQuestion() {
-    // 1. ดึงชุดคำถามของ Chapter ที่ถูกเลือก
     const currentQuestionsSet = chapterQuestions[selectedChapter];
 
     if (!currentQuestionsSet || currentQuestion >= currentQuestionsSet.length) {
@@ -370,9 +363,8 @@ function loadQuestion() {
         return;
     }
     const q = currentQuestionsSet[currentQuestion];
-
     const shuffledOptions = [...q.options];
-    shuffleArray(shuffledOptions); // ✅ ตอนนี้ฟังก์ชันนี้มีอยู่แล้ว
+    shuffleArray(shuffledOptions);
 
     const questionEl = document.getElementById("question");
     if(questionEl) questionEl.innerText = q.question;
@@ -391,7 +383,10 @@ function loadQuestion() {
 
     const buttons = document.querySelectorAll(".answer-btn");
     buttons.forEach((btn, i) => {
+        // --- จุดสำคัญ: ปลดล็อกปุ่มให้กลับมาคลิกได้ในข้อใหม่ ---
         btn.classList.remove("correct", "incorrect", "disabled"); 
+        btn.style.pointerEvents = "auto"; 
+        btn.style.opacity = "1";
 
         if (shuffledOptions[i] !== undefined) { 
             btn.innerText = shuffledOptions[i];
@@ -400,52 +395,53 @@ function loadQuestion() {
     });
 }
 
-// 4.5 ตรวจคำตอบ
 function checkAnswer(selected, correct) {
     clearInterval(timerInterval);
-    const buttons = document.querySelectorAll(".answer-btn");
     
-    if (selected === correct) {
-        document.getElementById("correct-sound").play();
-        score +=1;
-    }else
-        document.getElementById("wrong-sound").play();
+    const sndTrue = document.getElementById("sound-correct");
+    const sndFalse = document.getElementById("sound-wrong");
+    const buttons = document.querySelectorAll(".answer-btn");
 
+    if (selected === correct) {
+        if (sndTrue) {
+            sndTrue.currentTime = 0;
+            sndTrue.play().catch(e => {});
+        }
+        score++;
+    } else {
+        if (sndFalse) {
+            sndFalse.currentTime = 0;
+            sndFalse.play().catch(e => {});
+        }
+    }
+
+    const scoreEl = document.getElementById("score");
+    if (scoreEl) scoreEl.innerText = score;
+
+    // ล็อกปุ่มทันทีที่เลือกคำตอบ
     buttons.forEach(btn => {
         btn.onclick = null;
         btn.classList.add("disabled");
+        btn.style.pointerEvents = "none"; // ล็อกไว้ชั่วคราวเพื่อแสดงเฉลย
 
-        // เทียบค่าแบบ String เพื่อความแม่นยำ (เช่น 10 vs "10")
         const btnText = String(btn.innerText);
-        
         if (btnText === correct) {
             btn.classList.add("correct");
-      } else if (btnText === selected) {
+        } else if (btnText === selected) {
             btn.classList.add("incorrect");
         }
     });
-  
-    if (selected === correct) {
-        score += (1*scoreMultiplier); // เพิ่มคะแนน
-      
-        // ⭐ การแก้ไขที่สำคัญ: อัปเดตคะแนนบนหน้าจอทันทีเมื่อตอบถูก
-        const scoreEl = document.getElementById("score");
-        if(scoreEl) scoreEl.innerText = score; 
-    }
 
     setTimeout(() => {
         currentQuestion++;
-
         const totalQuestions = chapterQuestions[selectedChapter].length;
-
         if (currentQuestion < totalQuestions) {
-            loadQuestion();
+            loadQuestion(); // เรียกข้อถัดไป ซึ่งจะไปปลดล็อก pointer-events เอง
         } else {
             endGame();
         }
     }, 1500);
 }
-
 // 4.6 จบเกม
 function endGame() {
     clearInterval(timerInterval);
@@ -985,9 +981,3 @@ if (secretLogo) {
     });
 }
 
-// ใส่เสียงให้ทุกปุ่มที่มีในหน้าเว็บโดยอัตโนมัติ
-document.addEventListener('click', (event) => {
-    if (event.target.tagName === 'BUTTON' || event.target.closest('button')) {
-        playClickSound();
-    }
-});
